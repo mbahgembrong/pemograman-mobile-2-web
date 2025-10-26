@@ -29,7 +29,7 @@ switch ($operasi) {
         @$nama = $_GET['nama'];
         @$jabatan = $_GET['jabatan'];
         
-        $query_insert_data = mysqli_query($koneksi, "INSERT INTO petugas (idpetugas, nama, jabatan)
+        $query_insert_data = mysqli_query($koneksi, "INSERT INTO petugas (kdpetugas, nama, jabatan)
         VALUES('$kdpetugas', '$nama', '$jabatan')");
         
         if ($query_insert_data) {
