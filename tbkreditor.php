@@ -1,8 +1,8 @@
 <?php
 // Konfigurasi Database (sama seperti tbpetugas/tbmotor)
-$server = "localhost";
-$username = "root";
-$password = "";
+$server = "db";
+$username = "android";
+$password = "android";
 $database = "db_android_1";
 
 // Koneksi

@@ -1,9 +1,9 @@
 <?php
 
 // Konfigurasi Database
-$server = "localhost";
-$username = "root";
-$password = "";
+$server = "db";
+$username = "android";
+$password = "android";
 $database = "db_android_1";
 
 // Koneksi ke Database

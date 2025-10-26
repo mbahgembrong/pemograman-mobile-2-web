@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # ------------------------------------
+  # 1. PHP-FPM SERVICE (app)
+  # ------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      # Mount folder project ke dalam /var/www/html (webroot)
+      - ./:/var/www/html
+      - ./php:/usr/local/etc/php/conf.d/ # Optional: Untuk konfigurasi PHP custom
+    expose:
+      - "9000" # Port default PHP-FPM
+
+  # ------------------------------------
+  # 2. NGINX SERVICE (web server)
+  # ------------------------------------
+  nginx:
+    image: nginx:stable-alpine
+    restart: always
+    ports:
+      # Membuka port 80 di host Anda, yang akan diakses oleh emulator melalui 10.0.2.2
+      - "8808:80" 
+    volumes:
+      # Mount folder project sebagai root Nginx
+      - ./:/var/www/html
+      # Mount konfigurasi Nginx custom
+      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app # Pastikan PHP-FPM berjalan sebelum Nginx
+
+  # ------------------------------------
+  # 3. DATABASE SERVICE (db)
+  # ------------------------------------
+  db:
+    image: mariadb:10.6 # Menggunakan MariaDB sebagai alternatif MySQL yang ringan
+    restart: always
+    environment:
+      # Sesuai dengan konfigurasi tbpetugas/tbmotor/tbkreditor.php
+      MYSQL_ROOT_PASSWORD: "odoo"
+      MYSQL_USER: "android"
+      MYSQL_PASSWORD: "android"
+      MYSQL_DATABASE: db_android_1 
+    volumes:
+      # Untuk menyimpan data database secara persisten
+      - dbdata:/var/lib/mysql
+    ports:
+      - "8809:3306" # Port database, bisa diakses dari host jika perlu
+    # expose: 
+    #   - "3306" # Tidak perlu diekspos ke host jika hanya diakses oleh PHP-FPM
+
+# Volume untuk menyimpan data MySQL secara persisten
+volumes:
+  dbdata:
