@@ -1,9 +1,14 @@
 <?php
 
 // Konfigurasi Database
-$server = "localhost";
-$username = "odoo";
-$password = "odoo";
+// $server = "localhost";
+// $username = "odoo";
+// $password = "odoo";
+
+$server = "db";
+$username = "android";
+$password = "android";
+
 $database = "db_android_1";
 
 // Koneksi ke Database
